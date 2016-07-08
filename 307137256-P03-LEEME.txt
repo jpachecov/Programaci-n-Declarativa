@@ -1,0 +1,25 @@
+1. 
+
+?- t(0+1,A). 			<---Prolog unifica con el primer hecho y devuelve A = 1+0.
+
+?- t(0+1+1,B).			<---Unifica con la primera regla obteniendo X := 0, Z:=B
+							Y las nuevas metas: t(X :+: 1,X1), t(X1 :+: 1,Z).
+							La primea unifica con el primer hecho: t(0 :+: 1, 1 :+: 0).
+							y se obtiene X1 := 1 + 0.
+							Ahora la meta es: t(X1 :+: 1,Z). usando X1 y unifica con:
+							t(X :+: 0 :+: 1,X :+: 1 :+: 0), haciendo X = 1. No hay mas metas
+							y prolog devuelve Z = 1+1+0.
+
+?- t(1+0+1+1+1,C).  	<---Unifica con t(X :+: 1 :+: 1, Z):- t(X :+: 1,X1), t(X1 :+: 1,Z).
+							haciendo X = 1 + 0 + 1. Las nuevas metas son (A) --> t(X :+: 1,X1) y (B) --> t(X1 :+: 1,Z).
+							Para la meta (A) (t(1 + 0 + 1 + 1,X1))unifica con la regla. obteniendo
+							X' = 1 + 0. y las nuevas metas con (C) --> t(X' :+: 1,X1) y (D) --> t(X1 :+: 1,Z).
+
+							Para la meta (C) unifica con el segundo hecho obteneido X1 = 1 + 1 + 0
+							Con la meta (D) otenemos Z = 1 + 1 + 0. La cual es X1 proveniente de la meta (A).
+							Seguimos con la meta (B) con X1 = 1 + 1 + 1 + 0. Unifica con el segundo hecho y obtenemmos
+							Z = 1 + 1 + 1 + 1 + 0. Despues tenemos la meta vacia, termina prolog y devuelve 
+							C = 1 + 1 + 1 + 1 + 0.
+
+?- t(D, 1 + 1 + 1 + 0)  <---Unifica con el segundo hecho t(X :+: 0 :+: 1,X :+: 1 :+: 0). 
+							Obteniendo X = 1 + 1. y por lo tanto D = 1 + 1 + 0 + 1. es lo que devuelve prolog.

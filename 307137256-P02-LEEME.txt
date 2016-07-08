@@ -1,0 +1,56 @@
+
+1. Sea el programa:
+p(1).
+p ( 2 ) :− ! .
+p(3).
+
+
+Escribir las respuestas de prolog a las siguientes preguntas:
+
+?- p(X).
+X = 1 ;
+X = 2.
+Esta respuesta se debe a la existencia del operador de corte como prolog va revisando los predicados de arriba a abajo
+primero se encuentra con que X unifica con 1 , pero como puede seguir unificando  encuentra que x unifica con 2
+pero en este predicado tenemos el operador de corte y se para en este ya no trata de unificar con X igual a 3
+
+
+
+?- p(X) , p(Y).
+X = Y, Y = 1 ;
+X = 1,
+Y = 2 ;
+X = 2,
+Y = 1 ;
+X = Y, Y = 2.
+
+Esta respuesta se debe a que primero unifica a X con Y y unifica con el primer valor que encuentra en la base que en este caso es 1
+luego unifica con X igual a 1 , y  Y igual a 2  pero como tenemos el operador de corte no trata de unificar con las ramas generadas
+anterior mente , luego unifica con X igual a 2 y Y  igual a 1 y igual como tenemos el operador de corte en X igual a 2 y ya solo falta
+revisar el caso en que las dos sean igual a 2 nunca llegan hacer las combinaciones con el 3 ya que el operador de corte esta en el dos
+
+
+?- p(X) , ! , p(Y).
+X = Y, Y = 1 ;
+X = 1,
+Y = 2.
+Esta respuesta es casi análoga a la anterior solo que por el operador de corte se rompe el backtrac de p (Y) por eso es que solo nos genera un subconjunto de las soluciones de la pregunta pasada.
+
+
+2.-
+
+resultado( [_ , E | L ] ,  [ E | M] ) :- ! , resultado(L , M) .
+resultado( _, [ ] ) .
+
+?- resultado([a,b,c,d,e,f,g],X).
+X = [b, d, f].
+
+- ¿Cuales son los casos que están cubiertos por el hecho (del programa de Prolog)?
+El ultimo caso cuando en la segunda lista ya no hay elementos.
+
+- ¿Que efecto tiene el operador de corte en la primera linea del programa?
+Evitar que prolog desarrolle cada una de las ramas de la segunda lista cuando va teniendo menos elementos , se queda con la primera.
+
+
+- ¿Por que se ha utilizado la variable anónima?
+Por que la propiedad resultado no depende de M.
